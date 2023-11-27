@@ -2,6 +2,15 @@
     "manifest_version": 3,
     "name": "Narrate My Tweets",
     "version": "1.1",
+    "commands": {
+        "narrate-tweets": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y",
+                "mac": "Command+Shift+Y"
+            },
+            "description": "Narrate Tweets"
+        }
+    },   
     "background": {
         "service_worker": "background.js"
       },

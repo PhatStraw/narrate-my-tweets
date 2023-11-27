@@ -1,7 +1,7 @@
-function convertTextToSpeech(text) {
-    chrome.storage.local.get(['narrationEnabled', 'selectedVoice'], function(items) {
-        if (items.narrationEnabled) return; // Do not narrate if disabled
 
+function convertTextToSpeech(text) {
+    console.log("convertTextToSpeech");
+    chrome.storage.local.get(['narrationEnabled', 'selectedVoice'], function(items) {
         fetch('http://localhost:3000/generate_speech', {
             method: 'POST',
             headers: {
@@ -25,8 +25,9 @@ function playAudio(audioUrl) {
 
 
  function captureTextFromTimeline(){
+    console.log("captureTextFromTimeline");
     chrome.runtime.sendMessage({action: 'captureScreen'}, function(response) {
-        console.log("captureTextFromTimeline", JSON.stringify(response));
+        console.log("response", response);
         if (chrome.runtime.lastError) {
             // Handle the error or simply return
             console.error(chrome.runtime.lastError.message);
@@ -41,8 +42,8 @@ function playAudio(audioUrl) {
 
 function sendImageToServerForAnalysis(imageDataUrl) {
     // Extract base64 data from the Data URL
+    console.log("sendImageToServerForAnalysis");
     let base64Image = imageDataUrl.split(',')[1];
-console.log("HERERRERE",base64Image);
     fetch('http://localhost:3000/analyze_image', {
         method: 'POST',
         headers: {
@@ -62,33 +63,14 @@ console.log("HERERRERE",base64Image);
 // Listener for changes from popup.js
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.storage.local.set({ narrationEnabled: request.narrationEnabled, selectedVoice: request.voice });
-
-    if (request.narrationEnabled) {
-        let textToNarrate = captureTextFromTimeline();
-        convertTextToSpeech(textToNarrate);
-    }
 });
 
-// Initial text capture and narration, if enabled
-window.addEventListener('DOMContentLoaded', () => {
-    chrome.storage.local.get(['narrationEnabled'], function(items) {
-        if (!items.narrationEnabled) {
-            console.log('Narration disabled');
-            let textToNarrate = captureTextFromTimeline();
-            convertTextToSpeech(textToNarrate);
+if (!window.hasAddedListener) {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === "narrateTweets") {
+            captureTextFromTimeline()
+            return true; // Indicates response is sent asynchronously  
         }
     });
-});
-
-
-window.addEventListener('scroll', () => {
-    let captureTimeout;
-    clearTimeout(captureTimeout);
-    captureTimeout = setTimeout(() => {
-        chrome.storage.local.get(['narrationEnabled'], function(items) {
-            if (!items.narrationEnabled) {
-                captureTextFromTimeline();
-            }
-        })
-    }, 1000); // Adjust the delay as needed
-});
+    window.hasAddedListener = true;
+}

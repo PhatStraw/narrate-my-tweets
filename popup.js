@@ -12,3 +12,12 @@ document.getElementById('saveSettings').addEventListener('click', function() {
         chrome.tabs.sendMessage(tabs[0].id, {narrationEnabled: narrationToggle, voice: selectedVoice});
     });
 });
+
+document.getElementById('captureButton').addEventListener('click', function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        console.log("sending message");
+        chrome.tabs.sendMessage(tabs[0].id, { action: "narrateTweets" });
+        console.log("message sent");
+    });
+});
+

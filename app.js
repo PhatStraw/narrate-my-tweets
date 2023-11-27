@@ -47,7 +47,6 @@ app.post('/analyze_image', async (req, res) => {
         res.status(500).send('Error processing the image');
     }
 });
-const speakFile = path.resolve("./speak.mp3");
 // Route to generate speech from text
 app.post('/generate_speech', async (req, res) => {
     const inputText = req.body.text;
