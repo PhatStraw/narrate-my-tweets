@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter Narrator Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            width: 200px;
+        }
+        .setting {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setting">
+        <label for="narrationToggle">Toggle Narration:</label>
+        <input type="checkbox" id="narrationToggle">
+    </div>
+    <div class="setting">
+        <label for="voiceSelection">Select Voice:</label>
+        <select id="voiceSelection">
+            <option value="alloy">Alloy</option>
+            <option value="echo">Echo</option>
+            <option value="fable">Fable</option>
+            <option value="onyx">Onyx</option>
+            <option value="nova">Nova</option>
+            <option value="shimmer">Shimmer</option>
+        </select>
+    </div>
+    <button id="saveSettings">Save Settings</button>
+    <script src="popup.js"></script>
+</body>
+</html>
