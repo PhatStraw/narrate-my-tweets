@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ narrationEnabled: false, selectedVoice: "alloy" });
+  chrome.storage.local.set({ selectedVoice: "alloy" });
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {

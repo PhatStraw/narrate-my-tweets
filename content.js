@@ -1,7 +1,7 @@
 
 function convertTextToSpeech(text) {
     console.log("convertTextToSpeech");
-    chrome.storage.local.get(['narrationEnabled', 'selectedVoice'], function(items) {
+    chrome.storage.local.get(['selectedVoice'], function(items) {
         fetch('http://localhost:3000/generate_speech', {
             method: 'POST',
             headers: {
@@ -58,12 +58,6 @@ function sendImageToServerForAnalysis(imageDataUrl) {
     })
     .catch(error => console.error('Error:', error));
 }
-
-
-// Listener for changes from popup.js
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    chrome.storage.local.set({ narrationEnabled: request.narrationEnabled, selectedVoice: request.voice });
-});
 
 if (!window.hasAddedListener) {
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

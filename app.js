@@ -34,7 +34,7 @@ app.post('/analyze_image', async (req, res) => {
                 {
                     role: "user",
                     content: [
-                        { type: "text", text: "Describe this image." },
+                        { type: "text", text: "you are to analyze the tweets in this image then give the summary in the manor of a news anchor." },
                         { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64Image}` } }
                     ]
                 }
